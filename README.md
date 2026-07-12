@@ -11,6 +11,7 @@ API REST para gestión de tareas con auditoría integrada, construida con **Spri
 | Java | 21 |
 | Spring Boot | 3.5.14 |
 | Spring Data JPA | — |
+| Springdoc OpenAPI (Swagger UI) | 2.x |
 | MapStruct | 1.5.5.Final |
 | Lombok | — |
 | H2 Database (dev) | — |
@@ -34,6 +35,26 @@ src/main/java/
 │   ├── repository/               # Repositorios Spring Data
 │   └── service/                  # Interfaces e implementaciones
 ```
+
+---
+
+## 📖 Documentación de la API (Swagger)
+
+La API incluye documentación interactiva mediante **Springdoc OpenAPI + Swagger UI**.
+
+Una vez iniciada la aplicación, puedes acceder a:
+
+| Recurso | URL |
+|---|---|
+| Swagger UI | `http://localhost:8080/swagger-ui/index.html` |
+| OpenAPI JSON | `http://localhost:8080/v3/api-docs` |
+
+Desde Swagger podrás:
+
+- Explorar todos los endpoints disponibles.
+- Consultar los modelos de petición y respuesta.
+- Ejecutar peticiones directamente desde el navegador.
+- Visualizar los códigos de respuesta de cada operación.
 
 ---
 
@@ -62,6 +83,7 @@ src/main/java/
 ## 📦 Modelos
 
 ### TaskRequest
+
 ```json
 {
   "description": "Implementar autenticación",
@@ -70,10 +92,12 @@ src/main/java/
 }
 ```
 
-**`TaskPriority`**: `LOW` · `MEDIUM` · `HIGH`  
-**`TaskStatus`**: `IN_PROGRESS` · `DONE`
+**TaskPriority:** `LOW` · `MEDIUM` · `HIGH`
+
+**TaskStatus:** `IN_PROGRESS` · `DONE`
 
 ### AuditRequest
+
 ```json
 {
   "level": "INFO",
@@ -82,13 +106,15 @@ src/main/java/
 }
 ```
 
-**`LogLevel`**: `INFO` · `ERROR`
+**LogLevel:** `INFO` · `ERROR`
 
 ---
 
 ## ⚙️ Configuración
 
-El proyecto usa H2 en memoria por defecto. Para usar MySQL, añade a `application.properties`:
+El proyecto usa **H2** en memoria por defecto.
+
+Para utilizar **MySQL**, configura `application.properties`:
 
 ```properties
 spring.datasource.url=jdbc:mysql://localhost:3306/todoexpress
@@ -104,14 +130,18 @@ spring.jpa.hibernate.ddl-auto=update
 ```bash
 # Clonar el repositorio
 git clone https://github.com/urian1983/ToDoExpress.git
+
 cd ToDoExpress
 
 # Ejecutar con Gradle Wrapper
-./gradlew bootRun          # Linux / macOS
-gradlew.bat bootRun        # Windows
+./gradlew bootRun      # Linux / macOS
+gradlew.bat bootRun    # Windows
 ```
 
-La API quedará disponible en `http://localhost:8080`.
+La aplicación estará disponible en:
+
+- API REST: `http://localhost:8080`
+- Swagger UI: `http://localhost:8080/swagger-ui/index.html`
 
 ---
 
@@ -123,14 +153,16 @@ La API quedará disponible en `http://localhost:8080`.
 
 ---
 
-## 📋 Características destacadas
+## 📋 Características
 
-- **Auditoría automática**: cada creación o actualización de tarea genera un registro de auditoría con nivel `INFO`. Los errores no controlados también se persisten con nivel `ERROR` a través del `GlobalExceptionHandler`.
-- **Validación**: los campos obligatorios de `TaskRequest` están anotados con `@NotBlank` y `@NotNull`.
-- **Mapeo con MapStruct**: conversión limpia entre entidades y DTOs sin código boilerplate.
-- **Manejo de errores centralizado**: `GlobalExceptionHandler` devuelve respuestas uniformes en formato `ErrorResponseDTO`.
-
----
+- ✅ API REST desarrollada con Spring Boot 3.
+- ✅ Documentación automática mediante Swagger/OpenAPI.
+- ✅ Auditoría automática: cada creación o actualización de tarea genera un registro con nivel `INFO`.
+- ✅ Persistencia automática de errores con nivel `ERROR` mediante `GlobalExceptionHandler`.
+- ✅ Validación de datos utilizando Bean Validation (`@NotBlank`, `@NotNull`).
+- ✅ Conversión entre entidades y DTOs mediante MapStruct.
+- ✅ Manejo centralizado de excepciones con respuestas uniformes (`ErrorResponseDTO`).
+- ✅ Base de datos H2 para desarrollo y soporte para MySQL en producción.
 
 ## 👤 Autor
 
