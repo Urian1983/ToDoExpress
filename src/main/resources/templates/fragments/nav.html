@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<!--
+  Un "fragment" de Thymeleaf es un trozo de HTML reutilizable.
+  Se define con th:fragment="nombre" y se inserta en otras páginas con:
+    <div th:replace="~{fragments/nav :: nav}"></div>
+  Así evitas copiar/pegar la barra de navegación en cada plantilla.
+-->
+<nav th:fragment="nav" class="navbar">
+    <a class="brand" th:href="@{/}">📝 ToDoExpress</a>
+    <div class="nav-links">
+        <a th:href="@{/tasks}">Tareas</a>
+        <a th:href="@{/audits}">Auditoría</a>
+        <a th:href="@{/swagger-ui/index.html}" target="_blank">API (Swagger)</a>
+    </div>
+</nav>
+
+</body>
+</html>

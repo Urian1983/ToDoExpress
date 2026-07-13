@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Tareas · ToDoExpress</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div th:replace="~{fragments/nav :: nav}"></div>
+
+<div class="container">
+    <div class="page-header">
+        <h1>Tareas</h1>
+        <a class="btn btn-primary" th:href="@{/tasks/new}">+ Nueva tarea</a>
+    </div>
+
+    <div class="card">
+        <!-- th:if / th:unless controlan si un bloque se renderiza según una condición -->
+        <div class="empty-state" th:if="${tasks.isEmpty()}">
+            Aún no hay tareas. Crea la primera con el botón de arriba.
+        </div>
+
+        <table th:unless="${tasks.isEmpty()}">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Descripción</th>
+                <th>Prioridad</th>
+                <th>Estado</th>
+                <th>Actualizada</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- th:each itera la lista que viene del Model (model.addAttribute("tasks", ...)) -->
+            <tr th:each="task : ${tasks}">
+                <td th:text="${task.id()}">1</td>
+                <td th:text="${task.description()}">Descripción</td>
+                <td>
+                    <!-- concatenamos el valor del enum al nombre de la clase CSS: badge-HIGH, badge-LOW... -->
+                    <span class="badge" th:classappend="'badge-' + ${task.priority()}" th:text="${task.priority()}">HIGH</span>
+                </td>
+                <td>
+                    <span class="badge" th:classappend="'badge-' + ${task.status()}" th:text="${task.status()}">DONE</span>
+                </td>
+                <td th:text="${#temporals.format(task.updatedAt(), 'dd/MM/yyyy HH:mm')}">01/01/2026</td>
+                <td class="actions">
+                    <a class="btn btn-secondary" th:href="@{/tasks/{id}/edit(id=${task.id()})}">Editar</a>
+                    <!-- Los formularios HTML solo soportan GET/POST, por eso el borrado es un mini-form con POST -->
+                    <form th:action="@{/tasks/{id}/delete(id=${task.id()})}" method="post"
+                          onsubmit="return confirm('¿Eliminar esta tarea?');">
+                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>

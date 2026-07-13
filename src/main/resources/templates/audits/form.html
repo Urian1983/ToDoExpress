@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Nuevo registro · ToDoExpress</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div th:replace="~{fragments/nav :: nav}"></div>
+
+<div class="container">
+    <div class="page-header">
+        <h1>Nuevo registro de auditoría</h1>
+    </div>
+
+    <form class="card-form" th:object="${auditForm}" th:action="@{/audits}" method="post">
+
+        <div class="field">
+            <label for="level">Nivel</label>
+            <select id="level" th:field="*{level}">
+                <option value="">-- Selecciona --</option>
+                <option th:each="l : ${levels}" th:value="${l}" th:text="${l}"></option>
+            </select>
+            <div class="error-text" th:if="${#fields.hasErrors('level')}" th:errors="*{level}"></div>
+        </div>
+
+        <div class="field">
+            <label for="taskId">ID de la tarea asociada</label>
+            <input type="number" id="taskId" th:field="*{taskId}" placeholder="Ej: 1">
+            <div class="error-text" th:if="${#fields.hasErrors('taskId')}" th:errors="*{taskId}"></div>
+        </div>
+
+        <div class="field">
+            <label for="message">Mensaje</label>
+            <input type="text" id="message" th:field="*{message}" placeholder="Describe el evento">
+            <div class="error-text" th:if="${#fields.hasErrors('message')}" th:errors="*{message}"></div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Guardar</button>
+            <a class="btn btn-secondary" th:href="@{/audits}">Cancelar</a>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>
