@@ -6,7 +6,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import urian1983.todoexpress.dto.TaskRequest;
 import urian1983.todoexpress.dto.TaskResponse;
+import urian1983.todoexpress.model.TaskPriority;
+import urian1983.todoexpress.model.TaskStatus;
 import urian1983.todoexpress.service.TaskService;
+
+import java.util.List;
 
 @RequestMapping("/api/tasks")
 @RestController
@@ -25,7 +29,7 @@ public class TaskController {
         return taskService.createTask(taskRequest);
     }
 
-    @DeleteMapping("/tasks/{id}")
+    @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Operation(summary = "Eliminar una tarea existente", description = "Elimina una nueva una tarea específica.")
 
@@ -33,7 +37,7 @@ public class TaskController {
         taskService.deleteTask(id);
     }
 
-    @GetMapping("/tasks/{id}")
+    @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Obtener una tarea existente", description = "Obtiene una tarea específica que exista.")
 
@@ -41,7 +45,7 @@ public class TaskController {
         return taskService.getTaskById(id);
     }
 
-    @GetMapping("/tasks")
+    @GetMapping
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Obtener todas las tareas", description = "Obtiene todas las tareas.")
 
@@ -53,5 +57,23 @@ public class TaskController {
     @ResponseStatus(HttpStatus.OK)
     public TaskResponse updateTask(@PathVariable Long id, @Valid @RequestBody TaskRequest taskRequest){
         return taskService.updateTask(id, taskRequest);
+    }
+
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public List<TaskResponse> getTasksByPriority(@RequestParam TaskPriority priority){
+        return taskService.getTasksByPriority(priority);
+    }
+
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public List<TaskResponse> getTasksByStatus(@RequestParam TaskStatus status){
+        return taskService.getTasksByStatus(status);
+    }
+
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
+    public TaskResponse getTaskByDescription(@RequestParam String description) {
+        return taskService.getTaskByDescription(description);
     }
 }
