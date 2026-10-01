@@ -12,7 +12,7 @@ public interface TaskRepository extends JpaRepository<Task,Long> {
 
     List<Task> findByPriority(TaskPriority priority);
     List<Task> findByStatus(TaskStatus status);
-    Task findByDescriptionContainingIgnoreCase(String description);
+    List<Task> findByDescriptionContainingIgnoreCase(String description);
 
 
 }

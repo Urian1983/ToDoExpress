@@ -72,12 +72,12 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public TaskResponse getTaskByDescription(String description) {
-        Task taskToGet = repository.findByDescriptionContainingIgnoreCase(description);
-       if(taskToGet ==null){
+    public List<TaskResponse> getTaskByDescription(String description) {
+        List<Task> tasks = repository.findByDescriptionContainingIgnoreCase(description);
+        if (tasks.isEmpty()) {
             throw new NotFoundException("No tasks found");
         }
-        return mapper.toResponse(taskToGet);
+        return mapper.toResponseList(tasks);
 }
     @Override
     public List<TaskResponse> getAllTasks() {

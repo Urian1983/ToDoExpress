@@ -22,7 +22,7 @@ public class TaskController {
         this.taskService = taskService;
     }
 
-    @PostMapping("/tasks")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @Operation(summary = "Crear una nueva tarea", description = "Registra una nueva una tarea específica.")
     public TaskResponse createTask(@Valid @RequestBody TaskRequest taskRequest){
@@ -49,8 +49,9 @@ public class TaskController {
     @ResponseStatus(HttpStatus.OK)
     @Operation(summary = "Obtener todas las tareas", description = "Obtiene todas las tareas.")
 
-    public void getAllTask(){
-        taskService.getAllTasks();
+    public List<TaskResponse> getAllTask(){
+
+        return taskService.getAllTasks();
     }
 
     @PutMapping("/{id}")
@@ -59,21 +60,21 @@ public class TaskController {
         return taskService.updateTask(id, taskRequest);
     }
 
-    @GetMapping
+    @GetMapping(params = "priority")
     @ResponseStatus(HttpStatus.OK)
     public List<TaskResponse> getTasksByPriority(@RequestParam TaskPriority priority){
         return taskService.getTasksByPriority(priority);
     }
 
-    @GetMapping
+    @GetMapping(params ="status")
     @ResponseStatus(HttpStatus.OK)
     public List<TaskResponse> getTasksByStatus(@RequestParam TaskStatus status){
         return taskService.getTasksByStatus(status);
     }
 
-    @GetMapping
+    @GetMapping(params ="description")
     @ResponseStatus(HttpStatus.OK)
-    public TaskResponse getTaskByDescription(@RequestParam String description) {
+    public List<TaskResponse> getTaskByDescription(@RequestParam String description) {
         return taskService.getTaskByDescription(description);
     }
 }
