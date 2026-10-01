@@ -12,7 +12,6 @@ import urian1983.todoexpress.repository.TaskRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class TaskServiceImpl implements TaskService {

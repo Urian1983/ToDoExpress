@@ -11,7 +11,7 @@ import urian1983.todoexpress.dto.ErrorResponseDTO;
 import urian1983.todoexpress.model.Audit;
 import urian1983.todoexpress.model.LogLevel;
 import urian1983.todoexpress.repository.AuditRepository;
-
+import org.springframework.security.access.AccessDeniedException;
 import java.util.stream.Collectors;
 
 @RestControllerAdvice
@@ -65,6 +65,12 @@ public class GlobalExceptionHandler {
         auditRepository.save(new Audit(LogLevel.ERROR, 0L, errors));
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(new ErrorResponseDTO(errors));
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ErrorResponseDTO> handleAccessDeniedException(AccessDeniedException ex) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body(new ErrorResponseDTO(ex.getMessage()));
     }
 
     @ExceptionHandler(Exception.class)
